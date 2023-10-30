@@ -1,6 +1,7 @@
 package com.stc.systemdesign.security;
 
 import com.stc.systemdesign.security.jwt.AuthTokenFilter;
+import com.stc.systemdesign.security.jwt.CustomAuthEntryPoint;
 import com.stc.systemdesign.security.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfiguration {
 
     private final UserDetailsServiceImpl userDetailsService;
+    private final CustomAuthEntryPoint authEntryPoint;
     private final PasswordEncoder passwordEncoder;
     private final AuthTokenFilter authTokenFilter;
 
@@ -45,6 +47,7 @@ public class WebSecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth.requestMatchers("").permitAll())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(exceptionHandler -> exceptionHandler.authenticationEntryPoint(authEntryPoint))
                 .build();
     }
     

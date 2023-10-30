@@ -20,8 +20,26 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(PermissionGroupNotFoundException.class)
-    public ResponseEntity<?> handleValidationException(PermissionGroupNotFoundException ex){
+    public ResponseEntity<?> handlePermissionGroupException(PermissionGroupNotFoundException ex){
         logger.error("permission exception caught with message " + ex.getMessage());
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(SpaceNotFoundException.class)
+    public ResponseEntity<?> handleSpaceNotFoundException(SpaceNotFoundException ex){
+        logger.error("space not found exception is found " + ex.getMessage());
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UnAuthorizedException.class)
+    public ResponseEntity<?> handleUnAuthorizedException(UnAuthorizedException ex){
+        logger.error("un-authorized exception is caught " + ex.getMessage());
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UserNameNotFoundException.class)
+    public ResponseEntity<?> handleUserNameNotFoundException(UserNameNotFoundException ex){
+        logger.error("provided username is not found " + ex.getMessage());
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 

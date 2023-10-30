@@ -18,11 +18,8 @@ public class FileDTO {
     @NotBlank(message = "name cannot be empty")
     private String name;
 
-    @NotNull(message = "permission group cannot be null")
-    @NotBlank(message = "permission group cannot be empty")
-    private String permissionGroup;
+    @NotNull(message = "folder name cannot be null")
+    @NotBlank(message = "folder name cannot be empty")
+    private String folderName;
 
-    @NotNull(message = "file content cannot be null")
-    @NotBlank(message = "file content cannot be empty")
-    private String content;
 }
