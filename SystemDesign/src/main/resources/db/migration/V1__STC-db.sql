@@ -1,14 +1,10 @@
 
 
-CREATE DATABASE "STC";
-
-
 CREATE TABLE public.file (
     id bigint NOT NULL,
     bytes oid,
     item_id bigint
 );
-
 
 CREATE SEQUENCE public.file_id_seq
     START WITH 1
@@ -22,7 +18,6 @@ ALTER SEQUENCE public.file_id_seq OWNER TO postgres;
 
 
 ALTER SEQUENCE public.file_id_seq OWNED BY public.file.id;
-
 
 
 CREATE TABLE public.item (
@@ -141,33 +136,6 @@ ALTER TABLE ONLY public.permission_group ALTER COLUMN id SET DEFAULT nextval('pu
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
 
 
-
-INSERT INTO public.permission (id, permission_level, user_email, group_id) VALUES (1, 'EDIT', 'emad@gmail.com', 1);
-INSERT INTO public.permission (id, permission_level, user_email, group_id) VALUES (2, 'VIEW', 'shady@gmail.com', 1);
-
-
-INSERT INTO public.permission_group (id, name) VALUES (1, 'admin');
-
-
-INSERT INTO public.users (id, user_name, is_enabled, password, permission_level) VALUES (1, 'emad', true, '$2a$12$CgHl.kwJzslXZLU76z5s6emsLoG7OOtN6Tbpootg35R13L.yS/Hqm', 1);
-
-
-
-SELECT pg_catalog.setval('public.file_id_seq', 1, false);
-
-
-
-SELECT pg_catalog.setval('public.item_id_seq', 1, false);
-
-
-SELECT pg_catalog.setval('public.permission_group_id_seq', 1, false);
-
-
-SELECT pg_catalog.setval('public.permission_id_seq', 1, false);
-
-
-SELECT pg_catalog.setval('public.users_id_seq', 1, false);
-
 ALTER TABLE ONLY public.file
     ADD CONSTRAINT file_pkey PRIMARY KEY (id);
 
@@ -211,4 +179,10 @@ ALTER TABLE ONLY public.item
 ALTER TABLE ONLY public.permission
     ADD CONSTRAINT fkqp7umovkuakff1jilk6dp9l1x FOREIGN KEY (group_id) REFERENCES public.permission_group(id);
 
+INSERT INTO public.permission_group (id, name) VALUES (1, 'admin');
+
+INSERT INTO public.permission (id, permission_level, user_email, group_id) VALUES (1, 'EDIT', 'emad@gmail.com', 1);
+INSERT INTO public.permission (id, permission_level, user_email, group_id) VALUES (2, 'VIEW', 'shady@gmail.com', 1);
+
+INSERT INTO public.users (id, user_name, is_enabled, password, permission_level) VALUES (1, 'emad', true, '$2a$12$CgHl.kwJzslXZLU76z5s6emsLoG7OOtN6Tbpootg35R13L.yS/Hqm', 1);
 

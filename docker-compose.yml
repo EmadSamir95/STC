@@ -1,0 +1,15 @@
+version: "3.4"
+
+services:
+  db:
+    image: postgres
+
+  app:
+    build:
+      context: .
+      dockerfile: SystemDesign/Dockerfile
+    ports:
+      - 8080:8080
+
+volumes:
+  postgres_data:
