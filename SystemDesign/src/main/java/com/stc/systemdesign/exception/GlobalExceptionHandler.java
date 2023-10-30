@@ -21,6 +21,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(Objects.requireNonNull(ex.getFieldError()).getDefaultMessage(), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(FileNotFoundException.class)
+    public ResponseEntity<?> handleFileNotFoundException(FileNotFoundException ex){
+        logger.error("file not found exception is caught " + ex.getMessage());
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(PermissionGroupNotFoundException.class)
     public ResponseEntity<?> handlePermissionGroupException(PermissionGroupNotFoundException ex){
         logger.error("permission exception caught with message " + ex.getMessage());
