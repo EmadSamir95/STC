@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stc.systemdesign.security.service.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -34,7 +33,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
-                                    @NonNull FilterChain filterChain) throws ServletException, IOException {
+                                    @NonNull FilterChain filterChain) throws IOException {
         try {
             String jwt = parseJWTHttpOnly(request);
             jwtUtils.validateJWTToken(jwt);
@@ -49,6 +48,11 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             response.setContentType("application/json");
             response.getWriter().write(responseHandler(ex));
         }
+    }
+
+    @Override
+    public boolean shouldNotFilter(@NonNull HttpServletRequest request){
+        return request.getServletPath().equalsIgnoreCase("/login");
     }
 
     private String parseJWTHttpOnly(HttpServletRequest request){

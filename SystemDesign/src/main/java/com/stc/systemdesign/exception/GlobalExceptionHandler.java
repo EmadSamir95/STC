@@ -1,22 +1,24 @@
 package com.stc.systemdesign.exception;
 
-import jakarta.validation.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import java.util.Objects;
 
 @ControllerAdvice("com.stc.systemdesign")
 public class GlobalExceptionHandler {
 
     Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    @ExceptionHandler(ValidationException.class)
-    public ResponseEntity<?> handleValidationException(ValidationException ex){
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<?> handleValidationException(MethodArgumentNotValidException ex){
         logger.error("validation error caught with message " + ex.getMessage());
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(Objects.requireNonNull(ex.getFieldError()).getDefaultMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(PermissionGroupNotFoundException.class)
